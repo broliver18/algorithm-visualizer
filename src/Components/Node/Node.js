@@ -1,14 +1,35 @@
-import React from 'react';
+import React from "react";
+import "./Node.css";
 
-import './Node.css';
+function Node(props) {
+  const {
+    col,
+    row,
+    isFinish,
+    isStart,
+    isWall,
+    onMouseDown,
+    onMouseEnter,
+    onMouseUp,
+  } = props;
 
-function Node() {
+  const extraClassName = isFinish
+    ? "node-finish"
+    : isStart
+    ? "node-start"
+    : isWall
+    ? "node-wall"
+    : "";
 
-    return (
-        <div>
-
-        </div>
-    )
+  return (
+    <div
+      id={`node-${row}-${col}`}
+      className={`node ${extraClassName}`}
+      onMouseDown={() => onMouseDown(row, col)}
+      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseUp={() => onMouseUp()}
+    ></div>
+  );
 }
 
 export default Node;
