@@ -22,7 +22,7 @@ export function getNodesInShortestPathOrder(finishNode) {
     currentNode = currentNode.previousNode;
   };
   return nodesInShortestPathOrder;
-}
+};
 
 function getAllNodes(grid) {
   const nodes = [];
@@ -52,6 +52,4 @@ function updateUnvisitedNeighbors(node, grid) {
   };
 };
 
-function sortNodesByDistance(unvisitedNodes) {
-  unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
-};
+const sortNodesByDistance = unvisitedNodes => unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
