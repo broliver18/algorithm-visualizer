@@ -1,30 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PathFinder.css";
 
 import Node from "../Node/Node";
 import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/Dijkstra';
 
 function PathFinder() {
-  const [grid, setGrid] = useState(getInitialGrid());
+  const [grid, setGrid] = useState([]);
   const [isMousePressed, setIsMousePressed] = useState(false);
+  const [isStartSelected, selectStart] = useState(false);
+  const [isFinishSelected, selectFinish] = useState(false);
   const [startNodeRow, setStartNodeRow] = useState(10);
   const [startNodeCol, setStartNodeCol] = useState(15);
   const [finishNodeRow, setFinishNodeRow] = useState(10);
   const [finishNodeCol, setFinishNodeCol] = useState(35);
 
-  function handleMouseDown(row, col) {
-    const newGrid = toggleWall(grid, row, col);
+  useEffect(() => {
+    const newGrid = getInitialGrid();
     setGrid(newGrid);
+  }, []);
+
+  function handleMouseDown(row, col, isStart, isFinish) {
+    if (isStart) {
+      selectStart(true);
+    } else if (isFinish) {
+      selectFinish(true);  
+    } else {
+      const newGrid = toggleWall(grid, row, col);
+      setGrid(newGrid); 
+    } 
     setIsMousePressed(true);
   };
 
   function handleMouseEnter(row, col) {
     if (!isMousePressed) return;
-    const newGrid = toggleWall(grid, row, col);
-    setGrid(newGrid);
+    if (isStartSelected || isFinishSelected) {
+      const newGrid = moveStartOrFinishEnter(grid, row, col);
+      setGrid(newGrid);
+    } else {
+      const newGrid = toggleWall(grid, row, col);
+      setGrid(newGrid);
+    }  
   };
 
-  const handleMouseUp = () => setIsMousePressed(false);
+  function handleMouseLeave(row, col) {
+    if (!isMousePressed) return;
+    if (isStartSelected || isFinishSelected) {
+      const newGrid = moveStartOrFinishLeave(grid, row, col);
+      setGrid(newGrid);
+    };
+  };
+
+  function handleMouseUp() {
+    setIsMousePressed(false);
+    selectStart(false);
+    selectFinish(false);
+  };
 
   function visualizeDijkstra() {
     const startNode = grid[startNodeRow][startNodeCol];
@@ -56,6 +86,7 @@ function PathFinder() {
                     isMousePressed={isMousePressed}
                     onMouseDown={handleMouseDown}
                     onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                     onMouseUp={handleMouseUp}
                   />
                 );
@@ -67,12 +98,12 @@ function PathFinder() {
     </div>
   );
 
-  function createNode(col, row) {
+  function createNode(row, col) {
     return {
-      col,
       row,
-      isStart: row === 10 && col === 15,
-      isFinish: row === 10 && col === 35,
+      col, 
+      isStart: row === startNodeRow && col === startNodeCol,
+      isFinish: row === finishNodeRow && col === finishNodeCol,
       distance: Infinity,
       isVisited: false,
       isWall: false,
@@ -85,7 +116,7 @@ function PathFinder() {
     for (let row = 0; row < 20; row++) {
       const currentRow = [];
       for (let col = 0; col < 50; col++) {
-        currentRow.push(createNode(col, row));
+        currentRow.push(createNode(row, col));
       }
       newGrid.push(currentRow);
     }
@@ -100,6 +131,54 @@ function PathFinder() {
       isWall: !node.isWall,
     };
     newGrid[row][col] = newNode;
+    return newGrid;
+  };
+
+  function moveStartOrFinishEnter(grid, row, col) {
+    const newGrid = grid.slice();
+    if (isStartSelected) {
+      setStartNodeRow(row);
+      setStartNodeCol(col);
+      const node = newGrid[row][col]
+      const newNode = {
+        ...node,
+        isStart: true
+      };
+      newGrid[row][col] = newNode;
+    } else if (isFinishSelected) {
+      setFinishNodeRow(row);
+      setFinishNodeCol(col);
+      const node = newGrid[row][col]
+      const newNode = {
+        ...node,
+        isFinish: true
+      };
+      newGrid[row][col] = newNode;
+    };
+    return newGrid;
+  }; 
+
+  function moveStartOrFinishLeave(grid, row, col) {
+    const newGrid = grid.slice();
+    if (isStartSelected) {
+      setStartNodeRow(row);
+      setStartNodeCol(col);
+      const node = newGrid[row][col]
+      const newNode = {
+        ...node,
+        isStart: false
+      };
+      newGrid[row][col] = newNode;
+    } else if (isFinishSelected) {
+      setFinishNodeRow(row);
+      setFinishNodeCol(col);
+      const node = newGrid[row][col]
+      const newNode = {
+        ...node,
+        isFinish: false
+      };
+      newGrid[row][col] = newNode;
+    };
     return newGrid;
   };
 
