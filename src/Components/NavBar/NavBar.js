@@ -4,6 +4,9 @@ import "./NavBar.css";
 
 function NavBar(props) {
   const [showMenu, setShowMenu] = useState(false);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState();
+
+  const initializeSearch = algorithm => props.visualizeAlgorithm(algorithm);
 
   useEffect(() => {
     const handler = () => setShowMenu(false);
@@ -12,11 +15,16 @@ function NavBar(props) {
     return () => {
       window.removeEventListener("click", handler);
     }
-  });
+  })
 
   function toggleMenu(e) {
     e.stopPropagation();
     setShowMenu(!showMenu);
+  }
+
+  function renderAction(algorithm) {
+    if (algorithm === undefined) return <button id="visualize-button">Select an Algorithm</button>
+    else if (algorithm === 'dijkstra') return <button id="visualize-button" onClick={() => initializeSearch('dijkstra')}>Visualize Dijkstra's!</button>
   }
 
   return (
@@ -30,14 +38,14 @@ function NavBar(props) {
           <a href="#" onClick={(e) => {toggleMenu(e)}}>Algorithms <span className="caret"></span></a>
           {showMenu && (
           <ul className="dropdown-menu">
-            <li>Dijkstra's Algorithm</li>
+            <li onClick={() => setSelectedAlgorithm("dijkstra")}>Dijkstra's Algorithm</li>
             <li>A* Search</li>
             <li>Breadth-first Search</li>
           </ul>
           )}
         </li>
         <li><a href="#">Maze</a></li>
-        <li><button id="visualize-button" onClick={props.visualizeDijkstra}>Visualize!</button></li>
+        <li>{renderAction(selectedAlgorithm)}</li>
         <li><a href="#">Clear Board</a></li>
         <li><a href="#">Clear Walls</a></li>
         <li><a href="#">Clear Path</a></li>

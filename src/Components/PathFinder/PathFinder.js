@@ -57,17 +57,18 @@ function PathFinder() {
     selectFinish(false);
   }
 
-  function visualizeDijkstra() {
+  function visualizeAlgorithm(algorithm) {
     const startNode = grid[startNodeRow][startNodeCol];
     const finishNode = grid[finishNodeRow][finishNodeCol];
-    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+    let visitedNodesInOrder;
+    if (algorithm === 'dijkstra') visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   return (
     <div>
-      <NavBar visualizeDijkstra={visualizeDijkstra}/>
+      <NavBar visualizeAlgorithm={visualizeAlgorithm}/>
       <div id="grid">
         {grid.map((row, rowIdx) => {
           return (
@@ -95,7 +96,7 @@ function PathFinder() {
         })}
       </div>
     </div>
-  );
+  )
 
   function createNode(row, col) {
     return {
