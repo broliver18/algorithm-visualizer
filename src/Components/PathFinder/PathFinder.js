@@ -69,32 +69,36 @@ function PathFinder() {
   return (
     <div>
       <NavBar visualizeAlgorithm={visualizeAlgorithm}/>
-      <div id="grid">
-        {grid.map((row, rowIdx) => {
-          return (
-            <div key={rowIdx}>
-              {row.map((node, nodeIdx) => {
-                const { row, col, isFinish, isStart, isWall } = node;
-                return (
-                  <Node
-                    key={nodeIdx}
-                    col={col}
-                    row={row}
-                    isFinish={isFinish}
-                    isStart={isStart}
-                    isWall={isWall}
-                    isMousePressed={isMousePressed}
-                    onMouseDown={handleMouseDown}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseUp={handleMouseUp}
-                  />
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+        <table>
+          <tbody>
+            {grid.map((row, rowIdx) => {
+              return (
+              <tr key={rowIdx}>
+                {row.map((node, nodeIdx) => {
+                  const { row, col, isFinish, isStart, isWall } = node;
+                  return (
+                    <td
+                    key={nodeIdx}>
+                      <Node
+                        col={col}
+                        row={row}
+                        isFinish={isFinish}
+                        isStart={isStart}
+                        isWall={isWall}
+                        isMousePressed={isMousePressed}
+                        onMouseDown={handleMouseDown}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseUp={handleMouseUp}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   )
 

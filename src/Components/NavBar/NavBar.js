@@ -23,7 +23,7 @@ function NavBar(props) {
   }
 
   function renderAction(algorithm) {
-    if (algorithm === undefined) return <button id="visualize-button">Select an Algorithm</button>
+    if (algorithm === undefined) return <button id="visualize-button">Select Algorithm</button>
     else if (algorithm === 'dijkstra') return <button id="visualize-button" onClick={() => initializeSearch('dijkstra')}>Visualize Dijkstra's!</button>
   }
 
