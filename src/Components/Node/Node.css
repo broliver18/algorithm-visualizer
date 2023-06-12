@@ -75,3 +75,10 @@
     background-color: rgb(255, 254, 106);
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .node {
+    max-width: 10px;
+    max-height: 10px;
+  }
+}
