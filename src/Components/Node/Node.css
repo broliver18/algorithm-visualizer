@@ -1,10 +1,9 @@
 .node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 25px;
   outline: 2px solid rgb(175, 216, 248);
-}
-
-.node-finish {
-  background-color: red;
 }
 
 .node-start {

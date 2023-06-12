@@ -13,7 +13,7 @@ function PathFinder() {
   const [startNodeRow, setStartNodeRow] = useState(10);
   const [startNodeCol, setStartNodeCol] = useState(15);
   const [finishNodeRow, setFinishNodeRow] = useState(10);
-  const [finishNodeCol, setFinishNodeCol] = useState(40);
+  const [finishNodeCol, setFinishNodeCol] = useState(41);
 
   useEffect(() => {
     const newGrid = getInitialGrid();
