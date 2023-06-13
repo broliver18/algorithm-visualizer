@@ -3,6 +3,7 @@ import "./PathFinder.css";
 
 import Node from "../Node/Node";
 import NavBar from "../NavBar/NavBar";
+import Legend from "../Legend/Legend";
 import { dijkstra, getNodesInShortestPathOrder } from "../../Algorithms/Dijkstra";
 
 function PathFinder() {
@@ -69,6 +70,7 @@ function PathFinder() {
   return (
     <div>
       <NavBar visualizeAlgorithm={visualizeAlgorithm}/>
+      <Legend/>
         <table>
           <tbody>
             {grid.map((row, rowIdx) => {
@@ -117,7 +119,7 @@ function PathFinder() {
 
   function getInitialGrid() {
     const newGrid = [];
-    for (let row = 0; row < 20; row++) {
+    for (let row = 0; row < 22; row++) {
       const currentRow = [];
       for (let col = 0; col < 57; col++) {
         currentRow.push(createNode(row, col));
