@@ -44,7 +44,7 @@ function NavBar(props) {
           </ul>
           )}
         </li>
-        <li><a href="#">Maze</a></li>
+        <li><a href="#">Create Maze</a></li>
         <li>{renderAction(selectedAlgorithm)}</li>
         <li><a href="#">Clear Board</a></li>
         <li><a href="#">Clear Walls</a></li>

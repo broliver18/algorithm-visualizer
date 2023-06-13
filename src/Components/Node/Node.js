@@ -17,13 +17,7 @@ function Node(props) {
     onMouseUp,
   } = props;
 
-  const extraClassName = isFinish
-    ? "node-finish"
-    : isStart
-    ? "node-start"
-    : isWall
-    ? "node-wall"
-    : "";
+  const extraClassName = isWall ? "node-wall" : "";
 
     function renderAction() {
       if (isFinish) return <TargetIcon/>
