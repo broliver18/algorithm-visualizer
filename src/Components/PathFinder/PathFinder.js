@@ -17,7 +17,7 @@ function PathFinder() {
   const [finishNodeCol, setFinishNodeCol] = useState(41);
 
   const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-  const gridHeight = Math.floor(document.documentElement.clientHeight / 36);
+  const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
 
   useEffect(() => {
     const newGrid = getInitialGrid();
