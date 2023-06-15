@@ -16,6 +16,9 @@ function PathFinder() {
   const [finishNodeRow, setFinishNodeRow] = useState(10);
   const [finishNodeCol, setFinishNodeCol] = useState(41);
 
+  const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+  const gridHeight = Math.floor(document.documentElement.clientHeight / 36);
+
   useEffect(() => {
     const newGrid = getInitialGrid();
     setGrid(newGrid);
@@ -119,9 +122,9 @@ function PathFinder() {
 
   function getInitialGrid() {
     const newGrid = [];
-    for (let row = 0; row < 21; row++) {
+    for (let row = 0; row < gridHeight; row++) {
       const currentRow = [];
-      for (let col = 0; col < 57; col++) {
+      for (let col = 0; col < gridWidth; col++) {
         currentRow.push(createNode(row, col));
       }
       newGrid.push(currentRow);

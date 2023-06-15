@@ -1,8 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
 table {
+  display: table;
   margin: 60px auto 20px auto;
   border-collapse: collapse;
   width: 97%;
-  height: 100%;
 }
 
 @media only screen and (max-width: 450px) {

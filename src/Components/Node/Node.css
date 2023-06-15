@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 25px;
   outline: 2px solid rgb(175, 216, 248);
   overflow: hidden;
 }
@@ -69,12 +69,5 @@
   100% {
     transform: scale(1);
     background-color: rgb(255, 254, 106);
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .node {
-    max-width: 10px;
-    max-height: 10px;
   }
 }
