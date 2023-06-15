@@ -4,20 +4,20 @@ import "./PathFinder.css";
 import Node from "../Node/Node";
 import NavBar from "../NavBar/NavBar";
 import Legend from "../Legend/Legend";
-import { dijkstra, getNodesInShortestPathOrder } from "../../Algorithms/Dijkstra";
+import {
+  dijkstra,
+  getNodesInShortestPathOrder,
+} from "../../Algorithms/Dijkstra";
 
 function PathFinder() {
   const [grid, setGrid] = useState([]);
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
   const [isFinishSelected, selectFinish] = useState(false);
-  const [startNodeRow, setStartNodeRow] = useState(10);
-  const [startNodeCol, setStartNodeCol] = useState(15);
-  const [finishNodeRow, setFinishNodeRow] = useState(10);
-  const [finishNodeCol, setFinishNodeCol] = useState(41);
-
-  const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-  const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+  const [startNodeRow, setStartNodeRow] = useState(Math.floor(document.documentElement.clientHeight / 78));
+  const [startNodeCol, setStartNodeCol] = useState(Math.floor(document.documentElement.clientWidth / 100));
+  const [finishNodeRow, setFinishNodeRow] = useState(Math.floor(document.documentElement.clientHeight / 78));
+  const [finishNodeCol, setFinishNodeCol] = useState(Math.floor(document.documentElement.clientWidth / 34));
 
   useEffect(() => {
     const newGrid = getInitialGrid();
@@ -65,25 +65,25 @@ function PathFinder() {
     const startNode = grid[startNodeRow][startNodeCol];
     const finishNode = grid[finishNodeRow][finishNodeCol];
     let visitedNodesInOrder;
-    if (algorithm === 'dijkstra') visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+    if (algorithm === "dijkstra")
+      visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   return (
     <div>
-      <NavBar visualizeAlgorithm={visualizeAlgorithm}/>
-      <Legend/>
-        <table>
-          <tbody>
-            {grid.map((row, rowIdx) => {
-              return (
+      <NavBar visualizeAlgorithm={visualizeAlgorithm} />
+      <Legend />
+      <table>
+        <tbody>
+          {grid.map((row, rowIdx) => {
+            return (
               <tr key={rowIdx}>
                 {row.map((node, nodeIdx) => {
                   const { row, col, isFinish, isStart, isWall } = node;
                   return (
-                    <td
-                    key={nodeIdx}>
+                    <td key={nodeIdx}>
                       <Node
                         col={col}
                         row={row}
@@ -105,7 +105,7 @@ function PathFinder() {
         </tbody>
       </table>
     </div>
-  )
+  );
 
   function createNode(row, col) {
     return {
@@ -122,6 +122,9 @@ function PathFinder() {
 
   function getInitialGrid() {
     const newGrid = [];
+    const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+  
     for (let row = 0; row < gridHeight; row++) {
       const currentRow = [];
       for (let col = 0; col < gridWidth; col++) {
