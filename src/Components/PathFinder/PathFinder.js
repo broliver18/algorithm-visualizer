@@ -155,6 +155,7 @@ function PathFinder() {
       const newNode = {
         ...node,
         isStart: true,
+        isWall: false,
       };
       newGrid[row][col] = newNode;
     } else if (isFinishSelected) {
@@ -164,6 +165,7 @@ function PathFinder() {
       const newNode = {
         ...node,
         isFinish: true,
+        isWall: false,
       };
       newGrid[row][col] = newNode;
     }
