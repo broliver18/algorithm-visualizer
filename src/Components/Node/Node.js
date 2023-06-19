@@ -29,7 +29,7 @@ function Node(props) {
       id={`node-${row}-${col}`}
       className={`node ${extraClassName}`}
       onMouseDown={() => onMouseDown(row, col, isStart, isFinish)}
-      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseEnter={() => onMouseEnter(row, col, isStart, isFinish)}
       onMouseLeave={() => onMouseLeave(row, col)}
       onMouseUp={() => onMouseUp()}
     >{renderAction()}</div>

@@ -1,4 +1,187 @@
-export function createMaze(grid, startNode, finishNode) {
-    const visitedNodesInOrder = [];
+export function recursiveDivision(
+  grid,
+  startNode,
+  finishNode,
+  rowStart,
+  rowEnd,
+  colStart,
+  colEnd,
+  orientation,
+  surroundingWalls
+) {
+  if (rowEnd < rowStart || colEnd < colStart) return;
+
+  const wallNodes = [];
+  const nodes = getAllNodes(grid);
+  const startNodeId = `node-${startNode.row}-${startNode.col}`;
+  const finishNodeId = `node-${finishNode.row}-${finishNode.col}`;
+  const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+  const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+
+  if (!surroundingWalls) {
+    nodes.forEach((node) => {
+      if (node !== startNodeId || node !== finishNodeId) {
+        const row = parseInt(node.split("-")[1]);
+        const col = parseInt(node.split("-")[2]);
+        if (
+          row === 0 ||
+          col === 0 ||
+          row === gridHeight - 1 ||
+          col === gridWidth - 1
+        )
+          wallNodes.push(node);
+      }
+    });
+    surroundingWalls = true;
+  }
+
+  if (orientation === "horizontal") {
+    const possibleRows = [];
+    const possibleCols = [];
+    for (let rowNum = rowStart; rowNum <= rowEnd; rowNum += 2) {
+      possibleRows.push(rowNum);
+    }
+    for (let colNum = colStart; colNum <= colEnd + 1; colNum += 2) {
+      possibleCols.push(colNum);
+    }
+    const randomRowIndex = Math.floor(Math.random() * possibleRows.length);
+    const randomColIndex = Math.floor(Math.random() * possibleCols.length);
+    const currentRow = possibleRows[randomRowIndex];
+    const randomCol = possibleCols[randomColIndex];
+    nodes.forEach((node) => {
+      if (node !== startNodeId || node !== finishNodeId) {
+        const row = parseInt(node.split("-")[1]);
+        const col = parseInt(node.split("-")[2]);
+        if (
+          row === currentRow &&
+          col !== randomCol &&
+          col >= colStart - 1 &&
+          col <= colEnd + 1
+        )
+          wallNodes.push(node);
+      }
+    });
+    if (currentRow - 2 - rowStart > colEnd - colStart) {
+        recursiveDivision(
+        grid,
+        rowStart,
+        currentRow - 2,
+        colStart,
+        colEnd,
+        orientation,
+        surroundingWalls
+      );
+    } else {
+        recursiveDivision(
+        grid,
+        rowStart,
+        currentRow - 2,
+        colStart,
+        colEnd,
+        "vertical",
+        surroundingWalls
+      );
+    }
+    if (rowEnd - (currentRow + 2) > colEnd - colStart) {
+        recursiveDivision(
+        grid,
+        rowStart,
+        currentRow + 2,
+        colStart,
+        colEnd,
+        orientation,
+        surroundingWalls
+      );
+    } else {
+        recursiveDivision(
+        grid,
+        rowStart,
+        currentRow + 2,
+        colStart,
+        colEnd,
+        "vertical",
+        surroundingWalls
+      );
+    }
+  } else {
+    const possibleRows = [];
+    const possibleCols = [];
+    for (let rowNum = rowStart; rowNum <= rowEnd + 1; rowNum += 2) {
+      possibleRows.push(rowNum);
+    }
+    for (let colNum = colStart; colNum <= colEnd; colNum += 2) {
+      possibleCols.push(colNum);
+    }
+    const randomRowIndex = Math.floor(Math.random() * possibleRows.length);
+    const randomColIndex = Math.floor(Math.random() * possibleCols.length);
+    const randomRow = possibleRows[randomRowIndex];
+    const currentCol = possibleCols[randomColIndex];
+    nodes.forEach((node) => {
+      if (node !== startNodeId || node !== finishNodeId) {
+        const row = parseInt(node.split("-")[1]);
+        const col = parseInt(node.split("-")[2]);
+        if (
+          col === currentCol &&
+          row !== randomRow &&
+          row >= rowStart - 1 &&
+          row <= rowEnd + 1
+        )
+          wallNodes.push(node);
+      }
+    });
+    if (rowEnd - rowStart > currentCol - 2 - colStart) {
+        recursiveDivision(
+        grid,
+        rowStart,
+        rowEnd,
+        colStart,
+        currentCol - 2,
+        "horizontal",
+        surroundingWalls
+      );
+    } else {
+        recursiveDivision(
+        grid,
+        rowStart,
+        rowEnd,
+        colStart,
+        currentCol - 2,
+        orientation,
+        surroundingWalls
+      );
+    }
+    if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
+        recursiveDivision(
+        grid,
+        rowStart,
+        rowEnd,
+        colStart,
+        currentCol + 2,
+        "horizontal",
+        surroundingWalls
+      );
+    } else {
+        recursiveDivision(
+        grid,
+        rowStart,
+        rowEnd,
+        colStart,
+        currentCol + 2,
+        orientation,
+        surroundingWalls
+      );
+    }
+  }
+  return wallNodes;
 }
 
+function getAllNodes(grid) {
+  const nodes = [];
+  for (const row of grid) {
+    for (const node of row) {
+      const nodeId = document.getElementById(`node-${node.row}-${node.col}`);
+      nodes.push(nodeId);
+    }
+  }
+  return nodes;
+}

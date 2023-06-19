@@ -4,6 +4,7 @@ import "./PathFinder.css";
 import Node from "../Node/Node";
 import NavBar from "../NavBar/NavBar";
 import Legend from "../Legend/Legend";
+import { recursiveDivision } from "../../Algorithms/RecursiveDivision";
 import {
   dijkstra,
   getNodesInShortestPathOrder,
@@ -14,10 +15,18 @@ function PathFinder() {
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
   const [isFinishSelected, selectFinish] = useState(false);
-  const [startNodeRow, setStartNodeRow] = useState(Math.floor(document.documentElement.clientHeight / 78));
-  const [startNodeCol, setStartNodeCol] = useState(Math.floor(document.documentElement.clientWidth / 100));
-  const [finishNodeRow, setFinishNodeRow] = useState(Math.floor(document.documentElement.clientHeight / 78));
-  const [finishNodeCol, setFinishNodeCol] = useState(Math.floor(document.documentElement.clientWidth / 34));
+  const [startNodeRow, setStartNodeRow] = useState(
+    Math.floor(document.documentElement.clientHeight / 78)
+  );
+  const [startNodeCol, setStartNodeCol] = useState(
+    Math.floor(document.documentElement.clientWidth / 100)
+  );
+  const [finishNodeRow, setFinishNodeRow] = useState(
+    Math.floor(document.documentElement.clientHeight / 78)
+  );
+  const [finishNodeCol, setFinishNodeCol] = useState(
+    Math.floor(document.documentElement.clientWidth / 34)
+  );
 
   useEffect(() => {
     const newGrid = getInitialGrid();
@@ -36,8 +45,9 @@ function PathFinder() {
     setIsMousePressed(true);
   }
 
-  function handleMouseEnter(row, col) {
+  function handleMouseEnter(row, col, isStart, isFinish) {
     if (!isMousePressed) return;
+    if (isStart || isFinish) return;
     if (isStartSelected || isFinishSelected) {
       const newGrid = moveStartOrFinishEnter(grid, row, col);
       setGrid(newGrid);
@@ -61,6 +71,27 @@ function PathFinder() {
     selectFinish(false);
   }
 
+  function clearBoard() {
+   
+  }
+
+  function clearWalls() {
+    const newGrid = grid.slice();
+    const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    for (let currentRow = 0; currentRow < gridHeight; currentRow++) {
+      for (let currentCol = 0; currentCol < gridWidth; currentCol++) {
+        const currentNode = newGrid[currentRow][currentCol];
+        const newNode = {
+          ...currentNode,
+          isWall: false,
+        };
+        newGrid[currentRow][currentCol] = newNode;
+      }
+    }
+    setGrid(newGrid);
+  }
+
   function visualizeAlgorithm(algorithm) {
     const startNode = grid[startNodeRow][startNodeCol];
     const finishNode = grid[finishNodeRow][finishNodeCol];
@@ -73,7 +104,11 @@ function PathFinder() {
 
   return (
     <div>
-      <NavBar visualizeAlgorithm={visualizeAlgorithm} />
+      <NavBar
+        visualizeAlgorithm={visualizeAlgorithm}
+        clearWalls={clearWalls}
+        clearBoard={clearBoard}
+      />
       <Legend />
       <table>
         <tbody>
@@ -124,7 +159,7 @@ function PathFinder() {
     const newGrid = [];
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
     const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
-  
+
     for (let row = 0; row < gridHeight; row++) {
       const currentRow = [];
       for (let col = 0; col < gridWidth; col++) {
