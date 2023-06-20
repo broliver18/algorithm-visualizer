@@ -135,7 +135,7 @@ function PathFinder() {
     if (algorithm === "dijkstra")
       visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     setIsVisualized(true);
   }
 
@@ -269,7 +269,7 @@ function PathFinder() {
     return newGrid;
   }
 
-  function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+  function animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -294,6 +294,16 @@ function PathFinder() {
       }, 50 * i);
     }
   }
+
+  function animateMaze(wallNodes) {
+    for (let i = 0; i < wallNodes.length; i++) {
+      setTimeout(() => {
+        const node = wallNodes[i];
+        document.getElementById(node).className = 
+          "node node-maze";
+      }, 50 * i);
+    }
+  }  
 }
 
 export default PathFinder;
