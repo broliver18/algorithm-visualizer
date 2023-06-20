@@ -12,6 +12,7 @@ import {
 
 function PathFinder() {
   const [grid, setGrid] = useState([]);
+  const [isVisualized, setIsVisualized] = useState(false);
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
   const [isFinishSelected, selectFinish] = useState(false);
@@ -72,27 +73,62 @@ function PathFinder() {
   }
 
   function clearBoard() {
-   
+    const newGrid = getInitialGrid();
+    setGrid(newGrid);
+
+    const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    for (let row = 0; row < gridHeight; row++) {
+      for (let col = 0; col < gridWidth; col++) {
+        document.getElementById(`node-${row}-${col}`).className = "node";
+      }
+    }
+    setIsVisualized(false);
   }
 
-  function clearWalls() {
+  function clearPath() {
     const newGrid = grid.slice();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
     const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
-    for (let currentRow = 0; currentRow < gridHeight; currentRow++) {
-      for (let currentCol = 0; currentCol < gridWidth; currentCol++) {
-        const currentNode = newGrid[currentRow][currentCol];
-        const newNode = {
-          ...currentNode,
-          isWall: false,
-        };
-        newGrid[currentRow][currentCol] = newNode;
+    for (let row = 0; row < gridHeight; row++) {
+      for (let col = 0; col < gridWidth; col++) {
+        const currentNode = newGrid[row][col];
+        if (!currentNode.isWall) {
+          const newNode = {
+            ...currentNode,
+            distance: Infinity,
+            isVisited: false,
+          };
+          newGrid[row][col] = newNode;
+          document.getElementById(`node-${row}-${col}`).className = "node";
+        }
       }
     }
-    setGrid(newGrid);
+    setIsVisualized(false);
+  }
+
+  function clearWalls() {
+    if (isVisualized) clearBoard();
+    else {
+      const newGrid = grid.slice();
+      const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+      const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+      for (let row = 0; row < gridHeight; row++) {
+        for (let col = 0; col < gridWidth; col++) {
+          const currentNode = newGrid[row][col];
+          const newNode = {
+            ...currentNode,
+            isWall: false,
+          };
+          newGrid[row][col] = newNode;
+        }
+      }
+      setGrid(newGrid);
+    }
   }
 
   function visualizeAlgorithm(algorithm) {
+    if (isVisualized) clearPath();
     const startNode = grid[startNodeRow][startNodeCol];
     const finishNode = grid[finishNodeRow][finishNodeCol];
     let visitedNodesInOrder;
@@ -100,6 +136,7 @@ function PathFinder() {
       visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    setIsVisualized(true);
   }
 
   return (
@@ -108,6 +145,7 @@ function PathFinder() {
         visualizeAlgorithm={visualizeAlgorithm}
         clearWalls={clearWalls}
         clearBoard={clearBoard}
+        clearPath={clearPath}
       />
       <Legend />
       <table>

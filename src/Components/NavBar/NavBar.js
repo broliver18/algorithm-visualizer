@@ -75,7 +75,7 @@ function NavBar(props) {
             </a>
           </li>
           <li>
-            <a href="#">Clear Path</a>
+            <a href="#" onClick={props.clearPath}>Clear Path</a>
           </li>
         </ul>
       </nav>
