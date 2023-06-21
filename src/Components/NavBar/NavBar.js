@@ -63,7 +63,7 @@ function NavBar(props) {
             )}
           </li>
           <li>
-            <a href="#">Create Maze</a>
+            <a href="#" onClick={props.visualizeMaze}>Create Maze</a>
           </li>
           <li>{renderAction(selectedAlgorithm)}</li>
           <li>

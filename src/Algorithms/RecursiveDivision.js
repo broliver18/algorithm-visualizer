@@ -1,7 +1,5 @@
 export function recursiveDivision(
   grid,
-  startNode,
-  finishNode,
   rowStart,
   rowEnd,
   colStart,
@@ -13,16 +11,13 @@ export function recursiveDivision(
 
   const wallNodes = [];
   const nodes = getAllNodes(grid);
-  const startNodeId = `node-${startNode.row}-${startNode.col}`;
-  const finishNodeId = `node-${finishNode.row}-${finishNode.col}`;
   const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
   const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
 
   if (!surroundingWalls) {
     nodes.forEach((node) => {
-      if (node !== startNodeId || node !== finishNodeId) {
-        const row = parseInt(node.split("-")[1]);
-        const col = parseInt(node.split("-")[2]);
+      if (!node.isStart || !node.isFinish) {
+        const { row, col } = node;
         if (
           row === 0 ||
           col === 0 ||
@@ -41,7 +36,7 @@ export function recursiveDivision(
     for (let rowNum = rowStart; rowNum <= rowEnd; rowNum += 2) {
       possibleRows.push(rowNum);
     }
-    for (let colNum = colStart; colNum <= colEnd + 1; colNum += 2) {
+    for (let colNum = colStart - 1; colNum <= colEnd + 1; colNum += 2) {
       possibleCols.push(colNum);
     }
     const randomRowIndex = Math.floor(Math.random() * possibleRows.length);
@@ -49,9 +44,8 @@ export function recursiveDivision(
     const currentRow = possibleRows[randomRowIndex];
     const randomCol = possibleCols[randomColIndex];
     nodes.forEach((node) => {
-      if (node !== startNodeId || node !== finishNodeId) {
-        const row = parseInt(node.split("-")[1]);
-        const col = parseInt(node.split("-")[2]);
+      if (!node.isStart || !node.isFinish) {
+        const { row, col } = node;
         if (
           row === currentRow &&
           col !== randomCol &&
@@ -62,7 +56,7 @@ export function recursiveDivision(
       }
     });
     if (currentRow - 2 - rowStart > colEnd - colStart) {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         currentRow - 2,
@@ -72,7 +66,7 @@ export function recursiveDivision(
         surroundingWalls
       );
     } else {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         currentRow - 2,
@@ -83,20 +77,20 @@ export function recursiveDivision(
       );
     }
     if (rowEnd - (currentRow + 2) > colEnd - colStart) {
-        recursiveDivision(
+      recursiveDivision(
         grid,
-        rowStart,
         currentRow + 2,
+        rowEnd,
         colStart,
         colEnd,
         orientation,
         surroundingWalls
       );
     } else {
-        recursiveDivision(
+      recursiveDivision(
         grid,
-        rowStart,
         currentRow + 2,
+        rowEnd,
         colStart,
         colEnd,
         "vertical",
@@ -106,7 +100,7 @@ export function recursiveDivision(
   } else {
     const possibleRows = [];
     const possibleCols = [];
-    for (let rowNum = rowStart; rowNum <= rowEnd + 1; rowNum += 2) {
+    for (let rowNum = rowStart - 1; rowNum <= rowEnd + 1; rowNum += 2) {
       possibleRows.push(rowNum);
     }
     for (let colNum = colStart; colNum <= colEnd; colNum += 2) {
@@ -117,9 +111,8 @@ export function recursiveDivision(
     const randomRow = possibleRows[randomRowIndex];
     const currentCol = possibleCols[randomColIndex];
     nodes.forEach((node) => {
-      if (node !== startNodeId || node !== finishNodeId) {
-        const row = parseInt(node.split("-")[1]);
-        const col = parseInt(node.split("-")[2]);
+      if (!node.isStart || !node.isFinish) {
+        const { row, col } = node;
         if (
           col === currentCol &&
           row !== randomRow &&
@@ -130,7 +123,7 @@ export function recursiveDivision(
       }
     });
     if (rowEnd - rowStart > currentCol - 2 - colStart) {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         rowEnd,
@@ -140,7 +133,7 @@ export function recursiveDivision(
         surroundingWalls
       );
     } else {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         rowEnd,
@@ -151,22 +144,22 @@ export function recursiveDivision(
       );
     }
     if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         rowEnd,
-        colStart,
         currentCol + 2,
+        colEnd,
         "horizontal",
         surroundingWalls
       );
     } else {
-        recursiveDivision(
+      recursiveDivision(
         grid,
         rowStart,
         rowEnd,
-        colStart,
         currentCol + 2,
+        colEnd,
         orientation,
         surroundingWalls
       );
@@ -179,8 +172,7 @@ function getAllNodes(grid) {
   const nodes = [];
   for (const row of grid) {
     for (const node of row) {
-      const nodeId = document.getElementById(`node-${node.row}-${node.col}`);
-      nodes.push(nodeId);
+      nodes.push(node);
     }
   }
   return nodes;

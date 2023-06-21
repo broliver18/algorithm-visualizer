@@ -16,6 +16,7 @@ function PathFinder() {
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
   const [isFinishSelected, selectFinish] = useState(false);
+  const [usedToBeWall, setUsedToBeWall] = useState(false);
   const [startNodeRow, setStartNodeRow] = useState(
     Math.floor(document.documentElement.clientHeight / 78)
   );
@@ -46,10 +47,11 @@ function PathFinder() {
     setIsMousePressed(true);
   }
 
-  function handleMouseEnter(row, col, isStart, isFinish) {
+  function handleMouseEnter(row, col, isStart, isFinish, isWall) {
     if (!isMousePressed) return;
     if (isStart || isFinish) return;
     if (isStartSelected || isFinishSelected) {
+      if (isWall) setUsedToBeWall(true);
       const newGrid = moveStartOrFinishEnter(grid, row, col);
       setGrid(newGrid);
     } else {
@@ -59,6 +61,7 @@ function PathFinder() {
   }
 
   function handleMouseLeave(row, col) {
+    setUsedToBeWall(false);
     if (!isMousePressed) return;
     if (isStartSelected || isFinishSelected) {
       const newGrid = moveStartOrFinishLeave(grid, row, col);
@@ -116,11 +119,14 @@ function PathFinder() {
       for (let row = 0; row < gridHeight; row++) {
         for (let col = 0; col < gridWidth; col++) {
           const currentNode = newGrid[row][col];
-          const newNode = {
-            ...currentNode,
-            isWall: false,
-          };
-          newGrid[row][col] = newNode;
+          if (currentNode.isWall) {
+            const newNode = {
+              ...currentNode,
+              isWall: false,
+            };
+            newGrid[row][col] = newNode;
+            document.getElementById(`node-${row}-${col}`).className = "node";
+          }
         }
       }
       setGrid(newGrid);
@@ -139,10 +145,27 @@ function PathFinder() {
     setIsVisualized(true);
   }
 
+  function visualizeMaze() {
+    clearWalls();
+    const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const nodeWalls = recursiveDivision(
+      grid,
+      2,
+      gridHeight - 3,
+      2,
+      gridWidth - 3,
+      "horizontal",
+      false
+    );
+    animateMaze(nodeWalls);
+  }
+
   return (
     <div>
       <NavBar
         visualizeAlgorithm={visualizeAlgorithm}
+        visualizeMaze={visualizeMaze}
         clearWalls={clearWalls}
         clearBoard={clearBoard}
         clearPath={clearPath}
@@ -251,20 +274,38 @@ function PathFinder() {
       setStartNodeRow(row);
       setStartNodeCol(col);
       const node = newGrid[row][col];
-      const newNode = {
-        ...node,
-        isStart: false,
-      };
-      newGrid[row][col] = newNode;
+      if (usedToBeWall) {
+        const newNode = {
+          ...node,
+          isStart: false,
+          isWall: true,
+        };
+        newGrid[row][col] = newNode;
+      } else {
+        const newNode = {
+          ...node,
+          isStart: false,
+        };
+        newGrid[row][col] = newNode;
+      }
     } else if (isFinishSelected) {
       setFinishNodeRow(row);
       setFinishNodeCol(col);
       const node = newGrid[row][col];
-      const newNode = {
-        ...node,
-        isFinish: false,
-      };
-      newGrid[row][col] = newNode;
+      if (usedToBeWall) {
+        const newNode = {
+          ...node,
+          isFinish: false,
+          isWall: true,
+        };
+        newGrid[row][col] = newNode;
+      } else {
+        const newNode = {
+          ...node,
+          isFinish: false,
+        };
+        newGrid[row][col] = newNode;
+      }
     }
     return newGrid;
   }
@@ -296,14 +337,23 @@ function PathFinder() {
   }
 
   function animateMaze(wallNodes) {
+    const newGrid = grid.slice();
     for (let i = 0; i < wallNodes.length; i++) {
       setTimeout(() => {
         const node = wallNodes[i];
-        document.getElementById(node).className = 
+        const { row, col } = node;
+        document.getElementById(`node-${row}-${col}`).className =
           "node node-maze";
+        const currentNode = newGrid[row][col];
+        const newNode = {
+          ...currentNode,
+          isWall: true,
+        };
+        newGrid[row][col] = newNode;
       }, 50 * i);
     }
-  }  
+    setGrid(newGrid);
+  }
 }
 
 export default PathFinder;
