@@ -16,7 +16,7 @@ export function recursiveDivision(
 
   if (!surroundingWalls) {
     nodes.forEach((node) => {
-      if (!node.isStart || !node.isFinish) {
+      if (!node.isStart && !node.isFinish) {
         const { row, col } = node;
         if (
           row === 0 ||
@@ -44,7 +44,7 @@ export function recursiveDivision(
     const currentRow = possibleRows[randomRowIndex];
     const randomCol = possibleCols[randomColIndex];
     nodes.forEach((node) => {
-      if (!node.isStart || !node.isFinish) {
+      if (!node.isStart && !node.isFinish) {
         const { row, col } = node;
         if (
           row === currentRow &&
@@ -111,7 +111,7 @@ export function recursiveDivision(
     const randomRow = possibleRows[randomRowIndex];
     const currentCol = possibleCols[randomColIndex];
     nodes.forEach((node) => {
-      if (!node.isStart || !node.isFinish) {
+      if (!node.isStart && !node.isFinish) {
         const { row, col } = node;
         if (
           col === currentCol &&
