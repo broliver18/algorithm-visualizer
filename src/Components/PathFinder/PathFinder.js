@@ -151,6 +151,7 @@ function PathFinder() {
     const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
     const nodeWalls = recursiveDivision(
       grid,
+      [],
       2,
       gridHeight - 3,
       2,
@@ -351,7 +352,7 @@ function PathFinder() {
           isWall: true,
         };
         newGrid[row][col] = newNode;
-      }, 50 * i);
+      }, 10 * i);
     }
     setGrid(newGrid);
   }

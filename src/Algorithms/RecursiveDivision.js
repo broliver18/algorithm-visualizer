@@ -1,5 +1,6 @@
 export function recursiveDivision(
   grid,
+  wallNodesArray,
   rowStart,
   rowEnd,
   colStart,
@@ -9,7 +10,7 @@ export function recursiveDivision(
 ) {
   if (rowEnd < rowStart || colEnd < colStart) return;
 
-  const wallNodes = [];
+  const wallNodes = wallNodesArray;
   const nodes = getAllNodes(grid);
   const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
   const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
@@ -58,6 +59,7 @@ export function recursiveDivision(
     if (currentRow - 2 - rowStart > colEnd - colStart) {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         currentRow - 2,
         colStart,
@@ -68,6 +70,7 @@ export function recursiveDivision(
     } else {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         currentRow - 2,
         colStart,
@@ -79,6 +82,7 @@ export function recursiveDivision(
     if (rowEnd - (currentRow + 2) > colEnd - colStart) {
       recursiveDivision(
         grid,
+        wallNodes,
         currentRow + 2,
         rowEnd,
         colStart,
@@ -89,6 +93,7 @@ export function recursiveDivision(
     } else {
       recursiveDivision(
         grid,
+        wallNodes,
         currentRow + 2,
         rowEnd,
         colStart,
@@ -125,6 +130,7 @@ export function recursiveDivision(
     if (rowEnd - rowStart > currentCol - 2 - colStart) {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         rowEnd,
         colStart,
@@ -135,6 +141,7 @@ export function recursiveDivision(
     } else {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         rowEnd,
         colStart,
@@ -146,6 +153,7 @@ export function recursiveDivision(
     if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         rowEnd,
         currentCol + 2,
@@ -156,6 +164,7 @@ export function recursiveDivision(
     } else {
       recursiveDivision(
         grid,
+        wallNodes,
         rowStart,
         rowEnd,
         currentCol + 2,
