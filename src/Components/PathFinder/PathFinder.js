@@ -160,7 +160,6 @@ function PathFinder() {
       false
     );
     animateMaze(nodeWalls);
-    console.log(nodeWalls);
   }
 
   return (
