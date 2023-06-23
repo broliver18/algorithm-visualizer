@@ -34,6 +34,15 @@ function NavBar(props) {
           Visualize Dijkstra's!
         </button>
       );
+    else if (algorithm === "astar")
+      return (
+        <button
+          id="visualize-button"
+          onClick={() => initializeSearch("dijkstra")}
+        >
+          Visualize A*!
+        </button>
+      );
   }
 
   return (
@@ -57,17 +66,21 @@ function NavBar(props) {
                 <li onClick={() => setSelectedAlgorithm("dijkstra")}>
                   Dijkstra's Algorithm
                 </li>
-                <li>A* Search</li>
+                <li onClick={() => setSelectedAlgorithm("astar")}>A* Search</li>
                 <li>Breadth-first Search</li>
               </ul>
             )}
           </li>
           <li>
-            <a href="#" onClick={props.visualizeMaze}>Create Maze</a>
+            <a href="#" onClick={props.visualizeMaze}>
+              Create Maze
+            </a>
           </li>
           <li>{renderAction(selectedAlgorithm)}</li>
           <li>
-            <a href="#" onClick={props.clearBoard}>Clear Board</a>
+            <a href="#" onClick={props.clearBoard}>
+              Clear Board
+            </a>
           </li>
           <li>
             <a href="#" onClick={props.clearWalls}>
@@ -75,7 +88,9 @@ function NavBar(props) {
             </a>
           </li>
           <li>
-            <a href="#" onClick={props.clearPath}>Clear Path</a>
+            <a href="#" onClick={props.clearPath}>
+              Clear Path
+            </a>
           </li>
         </ul>
       </nav>

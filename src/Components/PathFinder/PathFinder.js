@@ -5,6 +5,7 @@ import Node from "../Node/Node";
 import NavBar from "../NavBar/NavBar";
 import Legend from "../Legend/Legend";
 import { recursiveDivision } from "../../Algorithms/RecursiveDivision";
+import { astar } from "../../Algorithms/astar";
 import {
   dijkstra,
   getNodesInShortestPathOrder,
@@ -136,11 +137,13 @@ function PathFinder() {
   function visualizeAlgorithm(algorithm) {
     if (isVisualized) clearPath();
     const startNode = grid[startNodeRow][startNodeCol];
-    const finishNode = grid[finishNodeRow][finishNodeCol];
+    const targetNode = grid[finishNodeRow][finishNodeCol];
     let visitedNodesInOrder;
     if (algorithm === "dijkstra")
-      visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+      visitedNodesInOrder = dijkstra(grid, startNode, targetNode);
+    else if (algorithm === "astar")
+      visitedNodesInOrder = astar(grid, startNode, targetNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(targetNode);
     animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     setIsVisualized(true);
   }
@@ -211,6 +214,8 @@ function PathFinder() {
       isStart: row === startNodeRow && col === startNodeCol,
       isFinish: row === finishNodeRow && col === finishNodeCol,
       distance: Infinity,
+      totalDistance: Infinity,
+      heurisitcDistance: null,
       isVisited: false,
       isWall: false,
       previousNode: null,
