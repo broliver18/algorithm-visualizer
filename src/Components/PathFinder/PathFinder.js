@@ -16,7 +16,7 @@ function PathFinder() {
   const [isVisualized, setIsVisualized] = useState(false);
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
-  const [isFinishSelected, selectFinish] = useState(false);
+  const [isTargetSelected, selectTarget] = useState(false);
   const [usedToBeWall, setUsedToBeWall] = useState(false);
   const [startNodeRow, setStartNodeRow] = useState(
     Math.floor(document.documentElement.clientHeight / 78)
@@ -24,10 +24,10 @@ function PathFinder() {
   const [startNodeCol, setStartNodeCol] = useState(
     Math.floor(document.documentElement.clientWidth / 100)
   );
-  const [finishNodeRow, setFinishNodeRow] = useState(
+  const [targetNodeRow, setTargetNodeRow] = useState(
     Math.floor(document.documentElement.clientHeight / 78)
   );
-  const [finishNodeCol, setFinishNodeCol] = useState(
+  const [targetNodeCol, setTargetNodeCol] = useState(
     Math.floor(document.documentElement.clientWidth / 34)
   );
 
@@ -40,7 +40,7 @@ function PathFinder() {
     if (isStart) {
       selectStart(true);
     } else if (isFinish) {
-      selectFinish(true);
+      selectTarget(true);
     } else {
       const newGrid = toggleWall(grid, row, col);
       setGrid(newGrid);
@@ -51,7 +51,7 @@ function PathFinder() {
   function handleMouseEnter(row, col, isStart, isFinish, isWall) {
     if (!isMousePressed) return;
     if (isStart || isFinish) return;
-    if (isStartSelected || isFinishSelected) {
+    if (isStartSelected || isTargetSelected) {
       if (isWall) setUsedToBeWall(true);
       const newGrid = moveStartOrFinishEnter(grid, row, col);
       setGrid(newGrid);
@@ -64,7 +64,7 @@ function PathFinder() {
   function handleMouseLeave(row, col) {
     setUsedToBeWall(false);
     if (!isMousePressed) return;
-    if (isStartSelected || isFinishSelected) {
+    if (isStartSelected || isTargetSelected) {
       const newGrid = moveStartOrFinishLeave(grid, row, col);
       setGrid(newGrid);
     }
@@ -73,7 +73,7 @@ function PathFinder() {
   function handleMouseUp() {
     setIsMousePressed(false);
     selectStart(false);
-    selectFinish(false);
+    selectTarget(false);
   }
 
   function clearBoard() {
@@ -137,7 +137,7 @@ function PathFinder() {
   function visualizeAlgorithm(algorithm) {
     if (isVisualized) clearPath();
     const startNode = grid[startNodeRow][startNodeCol];
-    const targetNode = grid[finishNodeRow][finishNodeCol];
+    const targetNode = grid[targetNodeRow][targetNodeCol];
     let visitedNodesInOrder;
     if (algorithm === "dijkstra")
       visitedNodesInOrder = dijkstra(grid, startNode, targetNode);
@@ -212,7 +212,7 @@ function PathFinder() {
       row,
       col,
       isStart: row === startNodeRow && col === startNodeCol,
-      isFinish: row === finishNodeRow && col === finishNodeCol,
+      isFinish: row === targetNodeRow && col === targetNodeCol,
       distance: Infinity,
       totalDistance: Infinity,
       heurisitcDistance: null,
@@ -260,9 +260,9 @@ function PathFinder() {
         isWall: false,
       };
       newGrid[row][col] = newNode;
-    } else if (isFinishSelected) {
-      setFinishNodeRow(row);
-      setFinishNodeCol(col);
+    } else if (isTargetSelected) {
+      setTargetNodeRow(row);
+      setTargetNodeCol(col);
       const node = newGrid[row][col];
       const newNode = {
         ...node,
@@ -294,9 +294,9 @@ function PathFinder() {
         };
         newGrid[row][col] = newNode;
       }
-    } else if (isFinishSelected) {
-      setFinishNodeRow(row);
-      setFinishNodeCol(col);
+    } else if (isTargetSelected) {
+      setTargetNodeRow(row);
+      setTargetNodeCol(col);
       const node = newGrid[row][col];
       if (usedToBeWall) {
         const newNode = {
