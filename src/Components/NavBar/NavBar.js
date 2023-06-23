@@ -38,7 +38,7 @@ function NavBar(props) {
       return (
         <button
           id="visualize-button"
-          onClick={() => initializeSearch("dijkstra")}
+          onClick={() => initializeSearch("astar")}
         >
           Visualize A*!
         </button>

@@ -146,6 +146,7 @@ function PathFinder() {
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(targetNode);
     animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     setIsVisualized(true);
+    console.log(visitedNodesInOrder);
   }
 
   function visualizeMaze() {

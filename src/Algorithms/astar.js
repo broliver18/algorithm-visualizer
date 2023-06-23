@@ -1,22 +1,24 @@
 export function astar(grid, startNode, targetNode) {
   const visistedNodesInOrder = [];
   startNode.distance = 0;
+  startNode.totalDistance = 0;
   const unvisitedNodes = getAllNodes(grid);
   while (!!unvisitedNodes.length) {
-    let currentNode = closestNodes(unvisitedNodes);
+    const currentNode = closestNodes(unvisitedNodes);
     if (currentNode.isWall) continue;
     if (currentNode.distance === Infinity) return visistedNodesInOrder;
     currentNode.isVisited = true;
     visistedNodesInOrder.push(currentNode);
     if (currentNode === targetNode) return visistedNodesInOrder;
     updateUnvisitedNeighbors(grid, currentNode, targetNode);
+    console.log(currentNode);
   }
 }
 
 function closestNodes(unvisitedNodes) {
   let currentClosest, index;
   for (let i = 0; i < unvisitedNodes.length; i++) {
-    if (!currentClosest || currentClosest.totalDistance > unvisitedNodes[i]) {
+    if (!currentClosest || currentClosest.totalDistance > unvisitedNodes[i].totalDistance) {
       currentClosest = unvisitedNodes[i];
       index = i;
     } else if (
