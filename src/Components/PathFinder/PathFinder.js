@@ -101,6 +101,8 @@ function PathFinder() {
           const newNode = {
             ...currentNode,
             distance: Infinity,
+            totalDistance: Infinity,
+            heurisitcDistance: null,
             isVisited: false,
           };
           newGrid[row][col] = newNode;
