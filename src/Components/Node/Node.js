@@ -28,7 +28,7 @@ function Node(props) {
     <div
       id={`node-${row}-${col}`}
       className={`node ${extraClassName}`}
-      onMouseDown={() => onMouseDown(row, col, isStart, isFinish)}
+      onMouseDown={() => {if (!props.isProcessing) onMouseDown(row, col, isStart, isFinish)}}
       onMouseEnter={() => onMouseEnter(row, col, isStart, isFinish, isWall)}
       onMouseLeave={() => onMouseLeave(row, col)}
       onMouseUp={() => onMouseUp()}

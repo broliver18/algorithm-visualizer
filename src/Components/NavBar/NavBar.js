@@ -23,13 +23,13 @@ function NavBar(props) {
         e.stopPropagation();
         e.preventDefault();
       }
-    };
+    }
 
     window.addEventListener("click", handler, true);
     return () => {
       window.removeEventListener("click", handler, true);
-    }
-  })
+    };
+  });
 
   function toggleMenu(e) {
     e.stopPropagation();
@@ -50,10 +50,7 @@ function NavBar(props) {
       );
     else if (algorithm === "astar")
       return (
-        <button
-          id="visualize-button"
-          onClick={() => initializeSearch("astar")}
-        >
+        <button id="visualize-button" onClick={() => initializeSearch("astar")}>
           Visualize A*!
         </button>
       );

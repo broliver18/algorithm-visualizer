@@ -209,6 +209,7 @@ function PathFinder() {
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}
+                        isProcessing={isProcessing}
                       />
                     </td>
                   );
