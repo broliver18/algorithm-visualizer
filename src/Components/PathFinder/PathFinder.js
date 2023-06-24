@@ -13,6 +13,7 @@ import {
 
 function PathFinder() {
   const [grid, setGrid] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [isVisualized, setIsVisualized] = useState(false);
   const [isMousePressed, setIsMousePressed] = useState(false);
   const [isStartSelected, selectStart] = useState(false);
@@ -155,6 +156,8 @@ function PathFinder() {
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(targetNode);
     animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     setIsVisualized(true);
+
+
   }
 
   function visualizeMaze() {
@@ -183,6 +186,7 @@ function PathFinder() {
         clearBoard={clearBoard}
         clearPath={clearPath}
         clearWalls={clearWalls}
+        isProcessing={isProcessing}
       />
       <Legend />
       <table>
@@ -327,6 +331,7 @@ function PathFinder() {
   }
 
   function animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder) {
+    setIsProcessing(true);
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -348,11 +353,14 @@ function PathFinder() {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest-path";
+          if (i === nodesInShortestPathOrder.length - 1) setIsProcessing(false);
       }, 50 * i);
+ 
     }
   }
 
   function animateMaze(wallNodes) {
+    setIsProcessing(true);
     const newGrid = grid.slice();
     for (let i = 0; i < wallNodes.length; i++) {
       setTimeout(() => {
@@ -366,6 +374,7 @@ function PathFinder() {
           isWall: true,
         };
         newGrid[row][col] = newNode;
+        if (i === wallNodes.length - 1) setIsProcessing(false);
       }, 10 * i);
     }
     setGrid(newGrid);

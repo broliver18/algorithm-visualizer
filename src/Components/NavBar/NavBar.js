@@ -17,6 +17,20 @@ function NavBar(props) {
     };
   });
 
+  useEffect(() => {
+    function handler(e) {
+      if (props.isProcessing) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("click", handler, true);
+    return () => {
+      window.removeEventListener("click", handler, true);
+    }
+  })
+
   function toggleMenu(e) {
     e.stopPropagation();
     setShowMenu(!showMenu);
