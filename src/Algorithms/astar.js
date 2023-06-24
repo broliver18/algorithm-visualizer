@@ -11,7 +11,6 @@ export function astar(grid, startNode, targetNode) {
     visistedNodesInOrder.push(currentNode);
     if (currentNode === targetNode) return visistedNodesInOrder;
     updateUnvisitedNeighbors(grid, currentNode, targetNode);
-    console.log(currentNode);
   }
 }
 
