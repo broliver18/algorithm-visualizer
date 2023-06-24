@@ -77,17 +77,26 @@ function PathFinder() {
   }
 
   function clearBoard() {
-    const newGrid = getInitialGrid();
-    setGrid(newGrid);
-
+    const newGrid = grid.slice();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
     const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
     for (let row = 0; row < gridHeight; row++) {
       for (let col = 0; col < gridWidth; col++) {
+        const currentNode = newGrid[row][col];
+        const newNode = {
+          ...currentNode,
+          distance: Infinity,
+          totalDistance: Infinity,
+          heurisitcDistance: null,
+          isVisited: false,
+          isWall: false,
+        };
+        newGrid[row][col] = newNode;
         document.getElementById(`node-${row}-${col}`).className = "node";
       }
     }
-    setIsVisualized(false);
+    setGrid(newGrid);
+    if (isVisualized) setIsVisualized(false);
   }
 
   function clearPath() {
@@ -110,30 +119,28 @@ function PathFinder() {
         }
       }
     }
+    setGrid(newGrid);
     setIsVisualized(false);
   }
 
   function clearWalls() {
-    if (isVisualized) clearBoard();
-    else {
-      const newGrid = grid.slice();
-      const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-      const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
-      for (let row = 0; row < gridHeight; row++) {
-        for (let col = 0; col < gridWidth; col++) {
-          const currentNode = newGrid[row][col];
-          if (currentNode.isWall) {
-            const newNode = {
-              ...currentNode,
-              isWall: false,
-            };
-            newGrid[row][col] = newNode;
-            document.getElementById(`node-${row}-${col}`).className = "node";
-          }
+    const newGrid = grid.slice();
+    const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    for (let row = 0; row < gridHeight; row++) {
+      for (let col = 0; col < gridWidth; col++) {
+        const currentNode = newGrid[row][col];
+        if (currentNode.isWall) {
+          const newNode = {
+            ...currentNode,
+            isWall: false,
+          };
+          newGrid[row][col] = newNode;
+          document.getElementById(`node-${row}-${col}`).className = "node";
         }
       }
-      setGrid(newGrid);
     }
+    setGrid(newGrid);
   }
 
   function visualizeAlgorithm(algorithm) {
@@ -151,7 +158,7 @@ function PathFinder() {
   }
 
   function visualizeMaze() {
-    clearWalls();
+    clearBoard();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
     const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
     const nodeWalls = recursiveDivision(
@@ -173,9 +180,9 @@ function PathFinder() {
       <NavBar
         visualizeAlgorithm={visualizeAlgorithm}
         visualizeMaze={visualizeMaze}
-        clearWalls={clearWalls}
         clearBoard={clearBoard}
         clearPath={clearPath}
+        clearWalls={clearWalls}
       />
       <Legend />
       <table>
