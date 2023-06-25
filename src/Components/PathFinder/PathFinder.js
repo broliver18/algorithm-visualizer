@@ -38,11 +38,12 @@ function PathFinder() {
   }, []);
 
   function handleMouseDown(row, col, isStart, isFinish) {
-    if (isStart) {
+    if (isStart && !isVisualized) {
       selectStart(true);
-    } else if (isFinish) {
+    } else if (isFinish && !isVisualized) {
       selectTarget(true);
     } else {
+      if (isStart || isFinish) return;
       const newGrid = toggleWall(grid, row, col);
       setGrid(newGrid);
     }
@@ -189,6 +190,9 @@ function PathFinder() {
         isProcessing={isProcessing}
       />
       <Legend />
+      <div id="instructions">
+        <p>Click & drag to move <span>start</span> & <span>target</span> nodes or <span>build walls</span></p>
+      </div>
       <table>
         <tbody>
           {grid.map((row, rowIdx) => {
@@ -354,7 +358,7 @@ function PathFinder() {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest-path";
-          if (i === nodesInShortestPathOrder.length - 1) setIsProcessing(false);
+        if (i === nodesInShortestPathOrder.length - 1) setIsProcessing(false);
       }, 50 * i);
     }
   }

@@ -1,9 +1,15 @@
+#Legend {
+    margin-bottom: 0;
+    padding: 0;
+}
+
 #Legend ul {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
     margin: 35px 0;
+    margin-bottom: 10px;
 }
 
 #Legend ul li {
