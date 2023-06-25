@@ -158,8 +158,6 @@ function PathFinder() {
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(targetNode);
     animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     setIsVisualized(true);
-
-
   }
 
   function visualizeMaze() {
