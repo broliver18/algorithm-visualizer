@@ -356,7 +356,6 @@ function PathFinder() {
           "node node-shortest-path";
           if (i === nodesInShortestPathOrder.length - 1) setIsProcessing(false);
       }, 50 * i);
- 
     }
   }
 
