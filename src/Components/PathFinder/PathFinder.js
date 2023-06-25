@@ -91,6 +91,7 @@ function PathFinder() {
           heurisitcDistance: null,
           isVisited: false,
           isWall: false,
+          previousNode: null,
         };
         newGrid[row][col] = newNode;
         document.getElementById(`node-${row}-${col}`).className = "node";
@@ -114,6 +115,7 @@ function PathFinder() {
             totalDistance: Infinity,
             heurisitcDistance: null,
             isVisited: false,
+            previousNode: null,
           };
           newGrid[row][col] = newNode;
           document.getElementById(`node-${row}-${col}`).className = "node";

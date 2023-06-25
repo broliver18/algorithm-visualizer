@@ -78,7 +78,6 @@ function NavBar(props) {
                   Dijkstra's Algorithm
                 </li>
                 <li onClick={() => setSelectedAlgorithm("astar")}>A* Search</li>
-                <li>Breadth-first Search</li>
               </ul>
             )}
           </li>
