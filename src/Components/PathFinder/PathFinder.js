@@ -20,13 +20,13 @@ function PathFinder() {
   const [isTargetSelected, selectTarget] = useState(false);
   const [usedToBeWall, setUsedToBeWall] = useState(false);
   const [startNodeRow, setStartNodeRow] = useState(
-    Math.floor(document.documentElement.clientHeight / 78)
+    Math.floor(document.documentElement.clientHeight / 82)
   );
   const [startNodeCol, setStartNodeCol] = useState(
     Math.floor(document.documentElement.clientWidth / 100)
   );
   const [targetNodeRow, setTargetNodeRow] = useState(
-    Math.floor(document.documentElement.clientHeight / 78)
+    Math.floor(document.documentElement.clientHeight / 82)
   );
   const [targetNodeCol, setTargetNodeCol] = useState(
     Math.floor(document.documentElement.clientWidth / 34)
@@ -81,7 +81,7 @@ function PathFinder() {
   function clearBoard() {
     const newGrid = grid.slice();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
     for (let row = 0; row < gridHeight; row++) {
       for (let col = 0; col < gridWidth; col++) {
         const currentNode = newGrid[row][col];
@@ -105,7 +105,7 @@ function PathFinder() {
   function clearPath() {
     const newGrid = grid.slice();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
     for (let row = 0; row < gridHeight; row++) {
       for (let col = 0; col < gridWidth; col++) {
         const currentNode = newGrid[row][col];
@@ -130,7 +130,7 @@ function PathFinder() {
   function clearWalls() {
     const newGrid = grid.slice();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
     for (let row = 0; row < gridHeight; row++) {
       for (let col = 0; col < gridWidth; col++) {
         const currentNode = newGrid[row][col];
@@ -164,7 +164,7 @@ function PathFinder() {
   function visualizeMaze() {
     clearBoard();
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
     const nodeWalls = recursiveDivision(
       grid,
       [],
@@ -244,7 +244,7 @@ function PathFinder() {
   function getInitialGrid() {
     const newGrid = [];
     const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-    const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+    const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
 
     for (let row = 0; row < gridHeight; row++) {
       const currentRow = [];

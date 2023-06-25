@@ -13,7 +13,7 @@ export function recursiveDivision(
   const wallNodes = wallNodesArray;
   const nodes = getAllNodes(grid);
   const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-  const gridHeight = Math.floor(document.documentElement.clientHeight / 39);
+  const gridHeight = Math.floor(document.documentElement.clientHeight /41);
 
   if (!surroundingWalls) {
     nodes.forEach((node) => {
