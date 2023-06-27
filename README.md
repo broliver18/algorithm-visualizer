@@ -1,7 +1,7 @@
 # Pathfinding Visualizer
 
 ## Description
-This app allows the user to visualize Dijkstra's Algorithm and A* Algorithm using a grid. The user selects the start and target node of the grid and is given the option to build walls or a maze. They can then choose which algorithm they want to visualize.
+This app allows the user to visualize Dijkstra's Algorithm and A* Search using a grid. The user selects the start and target node of the grid and is given the option to build walls or a maze. They can then choose which algorithm they want to visualize.
 
 With this app, it is easy to see and compare both algorithms as they work in real-time to find the destination target node and then draw out the shortest path there. 
 
