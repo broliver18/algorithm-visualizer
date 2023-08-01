@@ -6,7 +6,7 @@ This app allows the user to visualize Dijkstra's Algorithm and A* Search using a
 With this app, it is easy to see and compare both algorithms as they work in real-time to find the destination target node and then draw out the shortest path there. 
 
 ## Features
-- Allows for creation of walls where algorithm cannot access
+- Allows for creation of walls where algorithm nodes cannot access
 - Allows for creation of maze using recursive division
 - Start and target nodes can be moved to any location on the grid
 
@@ -15,8 +15,8 @@ With this app, it is easy to see and compare both algorithms as they work in rea
 2. Extract the files
 3. Open the terminal on your computer
 4. Navigate to the parent folder of the project - jamming (not jamming-main) using the `cd` command
-5. Type `npm install` into the terminal and wait for the installation to complete
-6. Type `npm start` to open application on 'http://localhost:3000'
+5. Enter `npm install` into the terminal and wait for the installation to complete
+6. Enter `npm start` to open application on 'http://localhost:3000'
 7. Begin visualizing
 
 ## Technologies
