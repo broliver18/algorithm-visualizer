@@ -6,7 +6,7 @@ This app allows the user to visualize Dijkstra's Algorithm and A* Search using a
 With this app, it is easy to see and compare both algorithms as they work in real-time to find the target node and then draw out the shortest path to get there.
 
 ## Links
-- Website: https://pathfinderalgorithms.netlify.app/
+- Website: https://pathfinderalgorithms.netlify.app/ (works best with Google Chrome)
 
 ## Features
 - Allows for creation of walls where algorithm nodes cannot access
