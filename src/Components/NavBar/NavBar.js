@@ -60,7 +60,7 @@ function NavBar(props) {
     <div id="NavBar">
       <nav>
         <div className="header">
-          <a href="index.html">Pathfinding Visualizer</a>
+          <a href="index.html">Algorithm Visualizer</a>
         </div>
         <ul className="navigation">
           <li className={showMenu ? "dropdown highlight" : "dropdown"}>
