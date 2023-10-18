@@ -26,6 +26,8 @@
 
 .navigation li a, .header a {
     text-decoration: none;
+    text-align: center;
+    align-items: center;
     font-size: 14px;
     padding: 13px 15px;
     line-height: 23px;
