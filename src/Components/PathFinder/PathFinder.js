@@ -13,6 +13,8 @@ import {
 
 function PathFinder() {
   const [grid, setGrid] = useState([]);
+  const [gridHeight, setGridHeight] = useState(Math.floor(window.innerHeight / 41));
+  const [gridWidth, setGridWidth] = useState(Math.floor(window.innerWidth / 25));
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisualized, setIsVisualized] = useState(false);
   const [isMousePressed, setIsMousePressed] = useState(false);
@@ -20,25 +22,38 @@ function PathFinder() {
   const [isTargetSelected, selectTarget] = useState(false);
   const [usedToBeWall, setUsedToBeWall] = useState(false);
   const [startNodeRow, setStartNodeRow] = useState(
-    Math.floor(document.documentElement.clientHeight / 82)
+    Math.floor(window.innerHeight / 82)
   );
   const [startNodeCol, setStartNodeCol] = useState(
-    Math.floor(document.documentElement.clientWidth / 100)
+    Math.floor(window.innerWidth / 100)
   );
   const [targetNodeRow, setTargetNodeRow] = useState(
-    Math.floor(document.documentElement.clientHeight / 82)
+    Math.floor(window.innerHeight / 82)
   );
   const [targetNodeCol, setTargetNodeCol] = useState(
-    Math.floor(document.documentElement.clientWidth / 34)
+    Math.floor(window.innerWidth / 34)
   );
 
-  const gridWidth = Math.floor(document.documentElement.clientWidth / 25);
-  const gridHeight = Math.floor(document.documentElement.clientHeight / 41);
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const newGrid = getInitialGrid();
     setGrid(newGrid);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridWidth, gridHeight]);
+
+  function handleResize() {
+    setGridHeight(Math.floor(window.innerHeight / 41));
+    setGridWidth(Math.floor(window.innerWidth / 25));
+    setStartNodeRow(Math.floor(window.innerHeight / 82));
+    setStartNodeCol(Math.floor(window.innerWidth / 100));
+    setTargetNodeRow(Math.floor(window.innerHeight / 82));
+    setTargetNodeCol(Math.floor(window.innerWidth / 34));
+  }
 
   function handleMouseDown(row, col, isStart, isFinish) {
     if (isStart && !isVisualized) {
@@ -162,6 +177,8 @@ function PathFinder() {
     clearBoard();
     const nodeWalls = recursiveDivision(
       grid,
+      gridWidth,
+      gridHeight,
       [],
       2,
       gridHeight - 3,
