@@ -5,6 +5,7 @@
   height: 25px;
   outline: 2px solid rgb(175, 216, 248);
   overflow: hidden;
+  width: 23px;
 }
 
 .node-visited {
